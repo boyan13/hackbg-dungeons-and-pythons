@@ -1,11 +1,11 @@
-#from Weapon import Weapon
+from Weapon import Weapon
 from Spell import Spell
 
 class Enemy():
 
 	# Base Enemy Type Class
 
-	# To be derived
+	# To be derived in the future?
 
 	# Constraints:
 	#
@@ -17,6 +17,7 @@ class Enemy():
 
 		self.__class__.validate_init(health, mana, damage)
 
+		self.MAX_HEALTH = health
 		self.health = health
 		self.mana = mana
 		self.damage = damage
@@ -48,6 +49,18 @@ class Enemy():
 
 	def get_mana(self):
 		return self.mana
+
+	def take_healing(amount):
+		if amount < 1:
+			raise ValueError("Enemy taking negative or zero healing.")
+
+		if self.health + amount >= self.MAX_HEALTH:
+			self.health = self.MAX_HEALTH
+		else:
+			self.health += amount
+
+	def get_strongest_attack(self):
+		pass
 
 	def attack(self, by = None): 
 		if by == None:

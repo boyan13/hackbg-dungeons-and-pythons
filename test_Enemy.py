@@ -1,6 +1,6 @@
 import unittest
 from Enemy import Enemy	
-#from Weapon import Weapon
+from Weapon import Weapon
 from Spell import Spell
 
 class test_Enemy(unittest.TestCase):
@@ -173,6 +173,86 @@ class test_Enemy(unittest.TestCase):
 		self.assertIsNone(e)
 		self.assertTrue(enemy.__dict__["spell"] != None)
 		self.assertTrue(enemy.__dict__["spell"] is spell)
+
+	def test_take_healing(self):
+		e1, e2, e3 = None, None, None
+
+		enemy1 = Enemy(100, 50, 1)
+		enemy2 = Enemy(100, 50, 1)
+		enemy3 = Enemy(100, 50, 1)
+		enemy4 = Enemy(100, 50, 1)
+		enemy5 = Enemy(100, 50, 1)
+		enemy6 = Enemy(100, 50, 1)
+		enemy7 = Enemy(100, 50, 1)
+
+		enemy1.take_damage(10)
+		enemy2.take_damage(10)
+		enemy3.take_damage(10)
+		enemy4.take_damage(10)
+
+		try: # VALID
+			enemy1.take_healing(10)
+			enemy2.take_healing(5)
+			enemy3.take_healing(5.45)
+			enemy4.take_healing(9999)
+			enemy5.take_healing(10)
+		except Exception as exc:
+			e1 = exc
+		try: # TAKE 0 HEALING  
+			enemy6.take_healing(0)
+		except ValueError as exc:
+			e2 = exc
+		try: # TAKE NEGATIVE HEALING
+			enemy7.take_healing(-10)
+		except ValueError as exc:
+			e3 = exc 
+
+		self.assertIsNone(e1)
+		self.assertIsNotNone(e2)
+		self.assertIsNotNone(e3)
+		self.assertEqual(enemy1.get_health(), 100)
+		self.assertEqual(enemy2.get_health(), 95)
+		self.assertEqual("%.3f" % enemy3.get_health(), 94.550)
+		self.assertEqual(enemy4.get_health(), 100)
+		self.assertEqual(str(e2), "Enemy taking negative or zero healing.")
+		self.assertEqual(str(e2), "Enemy taking negative or zero healing.")
+
+	def test_get_strongest_attack(self):
+		e = None
+
+		sword = Weapon(name = "Viper Sword", damage = 10)
+		spell = Spell(name = "IGNI", damage = 15, mana_cost = 40, cast_range = 1)
+
+		enemy1 = Enemy(100, 50, 5)  # STRONGEST: BASE DMG
+		enemy2 = Enemy(100, 50, 20) # STRONGEST: BASE DMG
+		enemy2.equip(sword)
+		enemy2.learn(spell)
+		enemy3 = Enemy(100, 50, 10) # STRONGEST: WEAPON DMG
+		enemy3.equip(sword)
+		enemy4 = Enemy(100, 50, 15) # STRONGEST: SPELL DMG
+		enemy4.learn(spell)
+		enemy5 = Enemy(100, 50, 12) # STRONGEST: BASE DMG
+		enemy5.equip(sword)
+		enemy6 = Enemy(100, 50, 12) # STRONGEST: SPELL DMG
+		enemy6.learn(spell)
+
+		try:
+			res1 = enemy1.get_strongest_attack()
+			res2 = enemy2.get_strongest_attack()
+			res3 = enemy3.get_strongest_attack()
+			res4 = enemy4.get_strongest_attack()
+			res5 = enemy5.get_strongest_attack()
+			res6 = enemy6.get_strongest_attack()
+		except Exception as exc:
+			e = exc
+
+		self.assertIsNone(e)
+		self.assertEqual(res1, None)
+		self.assertEqual(res2, None)
+		self.assertEqual(res3, "weapon")
+		self.assertEqual(res4, "spell")
+		self.assertEqual(res5, None)
+		self.assertEqual(res6, "spell")
 
 if __name__ == '__main__':
 	unittest.main()

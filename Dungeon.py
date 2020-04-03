@@ -3,7 +3,7 @@ from Weapon import Weapon
 from Spell import Spell
 
 class Dungeon:
-	def __init__(self, text_file):
+	def __init__(self, text_file, lootListPath):
 		self.matrix = []
 		with open(str(text_file)) as f:
 			self.matrix = f.readlines()
@@ -11,7 +11,16 @@ class Dungeon:
 		self.hero = None
 		self.borders = [len(self.matrix), len(self.matrix[0])]
 		self.hero_place = []
+
+		self.loot_dict = self.__class__.extract_loot_dictionary(lootListPath)
 		#self.symbol_under_hero = ""
+
+	@classmethod
+	def extract_loot_dictionary(cls, filePath):
+		with open(filePath, 'r') as f:
+			loot_dict = json.load(f)
+		return loot_dict	
+
 	def print_map(self):
 		for line in self.matrix:
 			print(line)
