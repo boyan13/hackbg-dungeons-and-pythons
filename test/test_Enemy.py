@@ -1,7 +1,5 @@
 import unittest
-from Enemy import Enemy
-from Weapon import Weapon
-from Spell import Spell
+from dnp.entity import Enemy, Weapon, Spell
 
 
 class test_Enemy(unittest.TestCase):

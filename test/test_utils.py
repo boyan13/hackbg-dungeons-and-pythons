@@ -1,5 +1,5 @@
 import unittest
-from utils import ascii_image_extract
+#from utils import ascii_image_extract
 
 
 class test_utils(unittest.TestCase):

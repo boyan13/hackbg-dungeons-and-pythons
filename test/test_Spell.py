@@ -1,5 +1,5 @@
 import unittest
-from Spell import Spell
+#from Spell import Spell
 
 
 class test_Spell(unittest.TestCase):

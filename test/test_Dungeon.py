@@ -1,8 +1,8 @@
 import unittest
-from Dungeon import Dungeon
-from Hero import Hero
-from Weapon import Weapon
-from Spell import Spell
+#from Dungeon import Dungeon
+#from Hero import Hero
+#from Weapon import Weapon
+#from Spell import Spell
 
 
 class test_Dungeon(unittest.TestCase):

@@ -1,6 +1,6 @@
 import curses
 import time
-from utils import ascii_image_extract
+from dnp.utils import ascii_image_extract
 
 
 main_menu = ["# Beging From The Start", "# Enter A Specific Dungeon", "# Test Keyboard Layout", "# Walk Away"]
@@ -48,7 +48,7 @@ def at_main_menu(stdscr):
     curses.curs_set(0)
 
     # Main
-    drawing_griffin = ascii_image_extract("ascii_griffin.txt")
+    drawing_griffin = ascii_image_extract("media/ascii_griffin.txt")
     currentOptionIndex = 0
 
     while 1:

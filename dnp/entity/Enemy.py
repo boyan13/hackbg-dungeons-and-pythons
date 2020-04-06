@@ -1,5 +1,5 @@
-from Weapon import Weapon
-from Spell import Spell
+#from Weapon import Weapon
+#from Spell import Spell
 
 
 class Enemy():

@@ -1,9 +1,9 @@
 import random
-from Hero import Hero
-from Weapon import Weapon
-from Spell import Spell
+#from Hero import Hero
+#from Weapon import Weapon
+#from Spell import Spell
 #from Dungeon import Dungeon
-from Enemy import Enemy
+#from Enemy import Enemy
 
 
 class Fight:

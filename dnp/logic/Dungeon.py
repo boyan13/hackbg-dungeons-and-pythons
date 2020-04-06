@@ -1,8 +1,8 @@
-from Hero import Hero
-from Weapon import Weapon
-from Spell import Spell
-from Fight import Fight
-from Enemy import Enemy
+#from Hero import Hero
+#from Weapon import Weapon
+#from Spell import Spell
+#from Fight import Fight
+#from Enemy import Enemy
 
 
 class Dungeon:
