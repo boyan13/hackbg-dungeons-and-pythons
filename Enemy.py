@@ -77,6 +77,7 @@ class Enemy():
             if self.spell is None:
                 return 0
             else:
+                self.mana -= self.spell.mana_cost
                 return self.spell.damage
 
         else:
