@@ -13,9 +13,12 @@ class Fight:
         self.distance = 0
 
     def start_fight(self, hero, enemy, distance):
+        print("Fight is started")
         self.hero = hero
         self.enemy = enemy
         self.distance = distance
+        '''
+        print(self.hero.get_health(), self.enemy.get_health())
         while self.hero.is_alive() and self.enemy.is_alive():
             # the desition of the player
             if self.hero.is_alive():
@@ -29,10 +32,12 @@ class Fight:
                     if not self.hero.is_alive():
                         print("Hero is dead")
         return self.hero
+        '''
 
     def hero_attack(self):
         # gets hero's move/attack
         command = self.get_hero_command()
+        print(command)
         s = ""
         if command == "pass":
             self.hero.take_mana()
@@ -43,6 +48,7 @@ class Fight:
             self.hero.take_mana()
             return"Hero moves one position."
         if command == "weapon" or command == "spell":
+            print('hereeeeee')
             if command == "spell":
                 if self.hero.can_cast():
                     return self.hero_attack_by(command)
@@ -91,15 +97,9 @@ class Fight:
             weapon = self.enemy.weapon.name
             return "Enemy hits with {} hero for {}. Hero health id {}".format(weapon, dmg, hero_health)
 
-    def get_hero_command(self):
+    def get_hero_command(self, comm):
         command_list = {1: "spell", 2: "weapon", 3: "move", 4: "pass"}
-        command = 0
-        while int(command) not in command_list.keys():
-            command = int(input("Enter on of:\n\
-                1 to cast a spell,\n\
-                2 to hit with weapon,\n\
-                3 to move closer to the enemy,\n\
-                4 to pass\n>>>"))
+        command = int(comm)
         return command_list[command]
 
     def hero_attack_by(self, type):

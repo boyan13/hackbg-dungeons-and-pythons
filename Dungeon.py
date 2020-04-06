@@ -1,3 +1,4 @@
+import copy
 from Hero import Hero
 from Weapon import Weapon
 from Spell import Spell
@@ -6,7 +7,7 @@ from Enemy import Enemy
 
 
 class Dungeon:
-    def __init__(self, text_file, lootListPath):
+    def __init__(self, text_file):  # , lootListPath):
         self.matrix = []
         with open(str(text_file)) as f:
             self.matrix = f.readlines()
@@ -16,17 +17,18 @@ class Dungeon:
         self.borders = [len(self.matrix), len(self.matrix[0])]
         self.hero_place = []
         self.end_of_game = False
-        self.enemy = Enemy(100, 120, 20)
-        self.enemy.equip(Weapon("Sword", 40))
-        self.enemy.learn(Spell("Fire", 30, 20, 3))
+        enemy = Enemy(100, 120, 20)
+        enemy.equip(Weapon("Sword", 40))
+        enemy.learn(Spell("Fire", 30, 20, 3))
+        self.enemies = [enemy, Enemy(80, 70, 15), Enemy(50, 50, 10)]
 
-        self.loot_dict = self.__class__.extract_loot_dictionary(lootListPath)
+        # self.loot_dict = self.__class__.extract_loot_dictionary(lootListPath)
 
-    @classmethod
-    def extract_loot_dictionary(cls, filePath):
-        with open(filePath, 'r') as f:
-            loot_dict = json.load(f)
-        return loot_dict
+    # @classmethod
+    # def extract_loot_dictionary(cls, filePath):
+    #    with open(filePath, 'r') as f:
+    #        loot_dict = json.load(f)
+    #    return loot_dict
 
     def print_map(self):
         for line in self.matrix:
@@ -64,44 +66,57 @@ class Dungeon:
             next_point = self.hero_place[0] + directions_vertical[direction]
             if next_point > 0 or next_point < self.borders[0]:
                 if self.matrix[next_point][self.hero_place[1]] == "#":
-                    return False
+                    return ("#", 0, next_point)
+                if self.matrix[next_point][self.hero_place[1]] == "-":
+                    return ("#", 0, next_point)
                 elif self.matrix[next_point][self.hero_place[1]] == "E":
-                    self.hero_atack(direction)
+                    self.hero = self.hero_atack(direction)
+                    return ("E", 0, next_point)
+                    # if self.hero.is_alive():
+                    #    self.change_map(".")
+                    #    self.hero_place[0] = next_point
+                    #    self.change_map("H")
                 elif self.matrix[next_point][self.hero_place[1]] == "T":
                     self.change_map(".")
                     self.hero_place[0] = next_point
                     self.change_map("H")
                     # add treasure
-                    print("Found treasure!")
+                    # print("Found treasure!")
+                    return ("T", 0, next_point)
                 elif self.matrix[next_point][self.hero_place[1]] == ".":
                     self.change_map(".")
                     self.hero_place[0] = next_point
                     self.change_map("H")
+                    return (".", 0, next_point)
                 else:
-                    print("End of the game!")
-                    print("You won!!!")
+                    return ("G", 0, next_point)
             else:
                 return False
         if direction in directions_horisontal.keys():
             next_point = self.hero_place[1] + directions_horisontal[direction]
             if next_point > 0 or next_point < self.borders[1]:
                 if self.matrix[self.hero_place[0]][next_point] == "#":
-                    return False
+                    return ("#", 1, next_point)
+                if self.matrix[self.hero_place[0]][next_point] == "-":
+                    return ("#", 1, next_point)
                 elif self.matrix[self.hero_place[0]][next_point] == "E":
-                    self.hero_atack(direction)
+                    return ("E", 1, next_point)
                 elif self.matrix[self.hero_place[0]][next_point] == "T":
                     self.change_map(".")
                     self.hero_place[1] = next_point
                     self.change_map("H")
                     # add treasure
                     print("Found treasure!")
+                    return ("T", 1, next_point)
                 elif self.matrix[self.hero_place[0]][next_point] == ".":
                     self.change_map(".")
                     self.hero_place[1] = next_point
                     self.change_map("H")
+                    return (".", 1, next_point)
                 else:
                     print("End of the game!")
                     print("You won!!!")
+                    return ("G", 1, next_point)
             else:
                 return False
         return False

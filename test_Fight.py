@@ -31,7 +31,7 @@ from Weapon import Weapon
 from Spell import Spell
 from Enemy import Enemy
 f = Fight()
-h = Hero("Geralt", "White wolf", 100, 100, 5)
+h = Hero("Geralt", "White wolf", 200, 100, 5)
 h.equip(Weapon("Axe", 40))
 h.learn(Spell("Storm", 30, 50, 3))
 e = Enemy(100, 40, 10)
